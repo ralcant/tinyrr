@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Router } from "@reach/router";
 import NotFound from "./pages/NotFound.js";
 import Skeleton from "./pages/Skeleton.js";
+import Redirecter from "./pages/Redirecter.js";
 
 import "../utilities.css";
 
@@ -54,6 +55,7 @@ class App extends Component {
             handleLogout={this.handleLogout}
             userId={this.state.userId}
           />
+          <Redirecter path="/:short" />
           <NotFound default />
         </Router>
       </>
