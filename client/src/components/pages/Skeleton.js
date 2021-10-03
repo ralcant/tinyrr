@@ -63,6 +63,11 @@ class Skeleton extends Component {
           <div>
             {this.state.success ? "Yay!" : "Uh oh"}
             {this.state.createdMessage}
+            {this.state.success && (
+              <a target="_blank" href={`/${this.state.short}`}>
+                {this.state.short}
+              </a>
+            )}
             <button onClick={this.restart}> Create a new one?</button>
           </div>
         )}
