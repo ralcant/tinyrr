@@ -19,9 +19,11 @@ function formatParams(params) {
 }
 
 // convert a fetch result to a JSON object with error handling for fetch and json errors
-function convertToJSON(res) {
+async function convertToJSON(res) {
   if (!res.ok) {
-    throw `API request failed with response status ${res.status} and text: ${res.statusText}`;
+    const x = await res.clone().json(); //now this is the message sent from server
+    const bodyText = JSON.stringify(x);
+    throw `API request failed with response status ${res.status} and text: ${bodyText}`;
   }
 
   return res
@@ -30,7 +32,7 @@ function convertToJSON(res) {
     .catch((error) => {
       // throw an error containing the text that couldn't be converted to JSON
       return res.text().then((text) => {
-        throw `API request's result could not be converted to a JSON object: \n${text}`;
+        throw `API request's result could not be converted to a JSON object: \n${text}ss`;
       });
     });
 }
@@ -60,4 +62,32 @@ export function post(endpoint, params = {}) {
       // give a useful error message
       throw `POST request to ${endpoint} failed with error:\n${error}`;
     });
+}
+
+let RICKROLL_LINK = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+
+export async function getUrlFromDatabase(short) {
+  let params = { short: short };
+  let response = await post("/api/getUrl", params);
+  if (!response.success) {
+    return response;
+  }
+
+  let prob = parseFloat(response.probability.$numberDecimal);
+  let url = chooseWithProbability(response.original, RICKROLL_LINK, prob);
+  response.original = url;
+  return response;
+}
+
+export async function createUrl(short, original, probability) {
+  let params = { short, original, probability };
+  let response = await post("/api/createUrl", params);
+  return response;
+}
+//Returns val1 with probability prob or else val2
+function chooseWithProbability(val1, val2, prob) {
+  if (Math.random() <= prob) {
+    return val1;
+  }
+  return val2;
 }
