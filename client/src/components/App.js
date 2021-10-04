@@ -5,6 +5,7 @@ import Skeleton from "./pages/Skeleton.js";
 import Redirecter from "./pages/Redirecter.js";
 
 import "../utilities.css";
+import "./App.css";
 
 import { socket } from "../client-socket.js";
 
@@ -47,8 +48,8 @@ class App extends Component {
 
   render() {
     return (
-      <>
-        <Router>
+      <div className="App-container">
+        <Router className="App-content">
           <Skeleton
             path="/"
             handleLogin={this.handleLogin}
@@ -58,7 +59,7 @@ class App extends Component {
           <Redirecter path="/:short" />
           <NotFound default />
         </Router>
-      </>
+      </div>
     );
   }
 }

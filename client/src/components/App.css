@@ -1,0 +1,19 @@
+/* .App-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.App-content {
+  flex: 1 0 auto;
+} */
+
+a:link {
+  text-decoration: none;
+}
+
+a:link,
+a:visited,
+a:hover,
+a:active {
+  color: inherit;
+}

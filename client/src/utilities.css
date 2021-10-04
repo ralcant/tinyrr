@@ -25,6 +25,12 @@
   --grey: #f7f7f7;
   --white: #fff;
 
+  --silver: #746d75;
+  --salmon: #ff7e6b;
+  --light--blue: #b4cded;
+  --green--bud: #68a357;
+  --black--rich: #051923;
+
   --xs: 4px;
   --s: 8px;
   --m: 16px;
@@ -36,6 +42,10 @@ body {
   padding: 0;
   font-family: "Roboto", sans-serif;
   font-weight: 300;
+
+  max-width: 100vw;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
 form {
