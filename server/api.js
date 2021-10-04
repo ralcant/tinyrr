@@ -65,15 +65,45 @@ router.post("/getUrl", async (req, res) => {
     return;
   }
 });
+//from https://stackoverflow.com/questions/4434076/best-way-to-alphanumeric-check-in-javascript
+function isAlphaNumeric(str) {
+  var code, i, len;
+
+  for (i = 0, len = str.length; i < len; i++) {
+    code = str.charCodeAt(i);
+    if (
+      !(code > 47 && code < 58) && // numeric (0-9)
+      !(code > 64 && code < 91) && // upper alpha (A-Z)
+      !(code > 96 && code < 123)
+    ) {
+      // lower alpha (a-z)
+      return false;
+    }
+  }
+  return true;
+}
 router.post("/createUrl", async (req, res) => {
   let { short, original, probability } = req.body;
+  if (!isAlphaNumeric(short)) {
+    res
+      .status(200)
+      .send({ success: false, msg: "the alias should only containe alphanumeric characters" });
+    return;
+  }
+  let prob = parseFloat(probability);
+  if (prob < 0 || prob > 1) {
+    res
+      .status(200)
+      .send({ success: false, msg: "the probability can only be on the range [0, 1]" });
+    return;
+  }
   try {
     let link = await Link.findOne({ short: short });
     if (link != null) {
       //Uh oh, there is already a link related to this one!
       res
         .status(200)
-        .send({ success: false, msg: `There is already a link related to -> ${short} <-` });
+        .send({ success: false, msg: `There is already a link related to the alias '${short}' ` });
       return;
     }
     //create
@@ -81,7 +111,7 @@ router.post("/createUrl", async (req, res) => {
     createdLink = await newLink.save();
     res.send({
       success: true,
-      msg: `Successfully linked ${original} with the shorten version: ${short}`,
+      msg: `Successfully linked '${original}' with the alias: ${short}`,
     });
   } catch (e) {
     res.status(404).send({ msg: `Error getting short for ${original}, error = ${e}` });
