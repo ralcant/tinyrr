@@ -142,7 +142,7 @@ class Skeleton extends Component {
         // style={{ backgroundImage: Background }}
       >
         {/* <img src={"https://i.kym-cdn.com/photos/images/original/002/136/427/925"} /> */}
-        <span className="Home-title">Tinyurr: RickRoll version</span>
+        <span className="Home-title">Tinyurr: TinyUrl RickRoll generator</span>
         <img
           alt="rickroll"
           src={"https://www.icegif.com/wp-content/uploads/rickroll-icegif-1.gif"}
