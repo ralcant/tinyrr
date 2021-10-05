@@ -50,7 +50,7 @@ router.post("/getUrl", async (req, res) => {
   try {
     let link = await Link.findOne({ short: short });
     if (link == null) {
-      res.status(200).send({ success: false, msg: `No link found with short = ${short}` });
+      res.status(200).send({ success: false, msg: `No link found with alias '${short}'` });
       return;
     }
     res.status(200).send({
@@ -82,12 +82,25 @@ function isAlphaNumeric(str) {
   }
   return true;
 }
+function isValidUrl(str) {
+  if (!str.startsWith("http://") && !str.startsWith("https://")) {
+    return false;
+  }
+  return true;
+}
 router.post("/createUrl", async (req, res) => {
   let { short, original, probability } = req.body;
   if (!isAlphaNumeric(short)) {
+    //maybe also allow "-" or "_" ?
     res
       .status(200)
       .send({ success: false, msg: "the alias should only containe alphanumeric characters" });
+    return;
+  }
+  if (!isValidUrl(original)) {
+    res
+      .status(200)
+      .send({ success: false, msg: "The url should start with either http:// or https://" });
     return;
   }
   let prob = parseFloat(probability);
