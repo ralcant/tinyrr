@@ -28,7 +28,12 @@ export default class Redirecter extends Component {
         {this.state.success ? (
           <div>Redirecting you to {this.state.url}</div>
         ) : (
-          <div>There was an error: {this.state.getMessage}</div>
+          <div>
+            <div>There was an error: {this.state.getMessage}</div>
+            <button>
+              <a href="/">Create a new link</a>
+            </button>
+          </div>
         )}
       </>
     );
